@@ -81,11 +81,11 @@ export default function Trainer() {
 
   return (
     <section>
-      <div className="container">
-        <div>
+      <div className="flexContainer">
+        <div className="flexContainer__child">
           <textarea onChange={updateCode} value={codeElement}></textarea>
         </div>
-        <div>
+        <div className="flexContainer__child">
           <iframe key={iframeId} src={iframeUrl}></iframe>
         </div>
        
