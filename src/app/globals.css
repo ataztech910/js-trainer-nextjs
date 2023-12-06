@@ -35,7 +35,7 @@ body {
 }
 
 textarea {
-  width: 100%;
+  width: calc(100vw);
   height: 100%;
   resize: none;
   border-radius: 0.5rem;
