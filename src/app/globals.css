@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400;600&family=Lato:wght@100;300;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +8,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --main-bg: #0f1729;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,32 +27,73 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: lighter;
 }
 
-.flexContainer {
-  display: flex;
-  gap: 1rem;
-  height: 500px;
-  width: 100%;
+.trainerSection {
+  height: 100vh;
+  background: var(--main-bg);
 }
-.flexContainer__child {
-  width: 50%;
+.trainerSection__content::-webkit-scrollbar {
+  display: none;
+}
+.trainerSection__content {
+  padding: 2rem;
+  line-height: 1.8;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-textarea {
-  width: 100%;
+.cm-theme-dark {
   height: 100%;
-  resize: none;
-  border-radius: 0.5rem;
-  background: black;
-  color: white;
-  padding: 0.5rem 1rem;
+}
+
+.cm-editor {
+  background: var(--main-bg) !important;
+  font-size: 1.4em;
 }
 
 iframe {
   height: 100%;
   width: 100%;
-  border-radius: 0.5rem;
   color: white;
   background: wheat;
+}
+
+.split {
+  height: 100%;
+}
+
+.xterm .xterm-viewport {
+  overflow-y: hidden !important;
+  background: var(--main-bg) !important;
+}
+
+.terminal {
+  background: var(--main-bg) !important;
+  overflow: hidden;
+  height: 100%;
+}
+
+.split-horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+.gutter {
+  background-color: #eee;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+  cursor: col-resize;
+}
+
+.gutter.gutter-vertical {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+  cursor: row-resize;
 }
