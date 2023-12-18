@@ -9,12 +9,13 @@ import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import Split from 'react-split';
 
-export default function Trainer() {
+export default function Trainer({ themeProps }) {
   const [codeElement, setCodeElement] = useState('');
   const [iframeUrl, setIframeUrl] = useState('loading.html');
   const [iframeId, setIframeId] = useState(0);
   const [containerInstance, setContainerInstance] = useState(null);
   const xtermRef = useRef(null);
+  const [theme, _] = useState(themeProps);
 
   const request = debounce(value => {
     const updateInstance = async (value) => {
@@ -84,7 +85,6 @@ export default function Trainer() {
 
   return (
     <section className="trainerSection">
-
         <Split
             sizes={[30,70]}
             gutterSize={7}
@@ -94,33 +94,28 @@ export default function Trainer() {
             </div>
             <div>
                 <Split
-                    className="split"
-                    direction="vertical"
-                    sizes={[80,10]}
-                    gutterSize={5}
-                >
+                    sizes={[60,40]}
+                    gutterSize={7}
+                    className="split split-horizontal">
                     <div>
-                        <Split
-                            sizes={[60,40]}
-                            gutterSize={7}
-                            className="split split-horizontal">
-
-                            <div>
-                                <CodeMirror
-                                    value={codeElement}
-                                    height="100%"
-                                    extensions={[javascript()]}
-                                    onChange={updateCode}
-                                    theme={'dark'}
-                                />
-                            </div>
-                            <div>
-                                <iframe key={iframeId} src={iframeUrl}></iframe>
-                            </div>
-                        </Split>
+                        <CodeMirror
+                            value={codeElement}
+                            height="100%"
+                            extensions={[javascript()]}
+                            onChange={updateCode}
+                            theme={theme}
+                        />
                     </div>
                     <div>
-                        <div className="terminal" ref={xtermRef}></div>
+                        <Split
+                            sizes={[80,20]}
+                            direction="vertical"
+                            gutterSize={6}
+                            minSize={0}
+                            className="split">
+                            <div><iframe key={iframeId} src={iframeUrl}></iframe></div>
+                            <div><div className="terminal" ref={xtermRef}></div></div>
+                        </Split>
                     </div>
                 </Split>
             </div>

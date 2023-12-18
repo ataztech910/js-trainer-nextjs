@@ -3,7 +3,7 @@ import Trainer from '../components/Trainer';
 export default function Home() {
   return (
     <main>
-      <Trainer />
+      <Trainer themeProps={'dark'} />
     </main>
   )
 }
