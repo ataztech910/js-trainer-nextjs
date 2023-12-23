@@ -10,18 +10,12 @@ export default function Home() {
   const [contentData, setContent] = useState([]);
 
   useEffect(() => {
-    contentful({ locale: 'en-US', 'fields.slug': 'what-is-aws-second', content_type: 'lesson'}).then(result => {
+    contentful({ locale: 'en-US', 'fields.slug': 'what-is-aws-secondl', content_type: 'lesson'})
+        .then(result => {
       const files = {};
-      result.fields.files.forEach(file => {
-        console.log(file);
-        files[file.fields.name] = {
-          file: {
-            contents: file.fields.scriptBody
-          }
-        }
-      });
-      console.log(files);
-      setFiles(files);
+      console.log('result', result);
+      console.log(result.fields.filesData);
+      setFiles(result.fields.filesData);
       setContent(result.fields.lessonText);
     });
 

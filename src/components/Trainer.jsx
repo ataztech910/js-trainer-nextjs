@@ -6,8 +6,10 @@ import 'xterm/css/xterm.css';
 import { debounce } from "lodash";
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
+import { html } from '@codemirror/lang-html';
 import TrainerTools from "@/components/TrainerTools";
 import Split from 'react-split';
+import {pathToKey} from "@/utils/strings";
 
 export default function Trainer({ themeProps, filesData, contentData, parseStrategy, renderOptions }) {
   const [codeElement, setCodeElement] = useState('');
@@ -18,10 +20,21 @@ export default function Trainer({ themeProps, filesData, contentData, parseStrat
   const [theme] = useState(themeProps);
   const [files] = useState(filesData);
   const [content] = useState(contentData);
+  const registeredPlatforms = {
+      'javascript': javascript,
+      'html': html
+  };
+
+  const getMainFile = (path, filename) => {
+      return path !== '.' ?
+          pathToKey(path, filename, files.filesData) :
+          files.filesData[files.mainFile]
+  }
 
   const request = debounce(value => {
     const updateInstance = async (value) => {
-      await containerInstance.fs.writeFile('/index.js', value);
+      const pathToMainFile = files.pathToMainFile.replaceAll('/directory', '');
+      await containerInstance.fs.writeFile(pathToMainFile + '/' + files.mainFile, value);
     }
     updateInstance(value);
   }, 600);
@@ -34,24 +47,23 @@ export default function Trainer({ themeProps, filesData, contentData, parseStrat
 
   useEffect(() => {
     if(containerInstance === null) {
+        console.log(files);
         const initTerminal = async () => await import('xterm');
         initTerminal().then(terminalObject => {
             const terminal = new terminalObject.Terminal();
             terminal?.open(xtermRef?.current);
             
             const loadContainer = async () => {
-                setCodeElement(files['index.js'].file.contents);
+                const mainFile = getMainFile(files.pathToMainFile, files.mainFile, files.filesData);
+                setCodeElement(mainFile.file.contents);
                 return WebContainer.boot();
             }
             
             loadContainer().then(async (container) => {
-            await container.mount(files);
+            await container.mount(files.filesData);
             
             const startDevServer = async (container) => {
-                const serverProcess = await container.spawn('npm', [
-                'run',
-                'start',
-                ]);
+                const serverProcess = await container.spawn('npm', ['run', files.runCommand]);
                 serverProcess.output.pipeTo(
                 new WritableStream({
                     write(data) {
@@ -105,7 +117,7 @@ export default function Trainer({ themeProps, filesData, contentData, parseStrat
                             <CodeMirror
                                 value={codeElement}
                                 height="100%"
-                                extensions={[javascript()]}
+                                extensions={[registeredPlatforms[files.platform]()]}
                                 onChange={updateCode}
                                 theme={theme}
                             />

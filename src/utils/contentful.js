@@ -15,7 +15,6 @@ export const contentful = async (params) => {
     });
 
     const { items: [page] } = await client.getEntries(query);
-    console.log(page);
     return page || null;
 }
 

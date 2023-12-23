@@ -6,9 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "produce:angular": "node dirToJson.js angular_02 src/directory/app/directory app.component.ts start javascript",
+    "produce:html": "node dirToJson.js html_01 / index.html dev html"
   },
   "dependencies": {
+    "@codemirror/lang-html": "^6.4.7",
     "@codemirror/lang-javascript": "^6.2.1",
     "@contentful/rich-text-react-renderer": "^15.19.0",
     "@contentful/rich-text-types": "^16.3.0",
