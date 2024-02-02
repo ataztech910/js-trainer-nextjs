@@ -26,6 +26,7 @@ export default function Trainer({ themeProps, filesData, contentData, parseStrat
   };
 
   const getMainFile = (path, filename) => {
+      console.log(files.mainFile);
       return path !== '.' ?
           pathToKey(path, filename, files.filesData) :
           files.filesData[files.mainFile]
