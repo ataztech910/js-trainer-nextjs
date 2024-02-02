@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "produce:angular": "node dirToJson.js angular_02 src/directory/app/directory app.component.ts start javascript",
+    "produce:angular": "node dirToJson.js angular_02 src/directory/app/directory app.component.html start javascript",
     "produce:html": "node dirToJson.js html_01 / index.html dev html"
   },
   "dependencies": {
